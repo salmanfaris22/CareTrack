@@ -51,10 +51,11 @@ const  navigate =useNavigate()
            return res.data;
         },
         onSuccess:(data)=>{
-            console.log(data.token);
+
             localStorage.setItem("type",data.userType)
+            localStorage.setItem("token",data.token)
             dispatch(userGet(data.userType))
-            console.log(data.userId);
+
 
             toast.success(data?.message)
             navigate("/")
