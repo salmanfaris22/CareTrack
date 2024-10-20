@@ -9,11 +9,7 @@ import { FaArrowLeft } from 'react-icons/fa6';
 
 // eslint-disable-next-line react/prop-types
 const Logine = () => {
-
-
-   
-
-  const [formData, setFormData] = useState({
+ const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
@@ -25,23 +21,8 @@ const {mutate} = useLoginController(formData)
   };
 
   const handleSubmit = async(e) => {
-    e.preventDefault();
-
-    console.log(formData); 
-    try{
-        
+    e.preventDefault();  
        mutate()
-        // const type =  localStorage.getItem("type")
-        // dispatch(type)
-   
-     }catch(Err){
-        console.log(Err);
-        console.log("daf");     
-    }
-   
-
-    
-    
   };
 
   return (

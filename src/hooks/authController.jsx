@@ -14,7 +14,7 @@ import { userGet } from "../features/user/adminCheck";
 
 
 export const useUserListMutate = (user)=>{
-
+    const  navigate =useNavigate()
     return useMutation({
         mutationFn:async()=>{
           const res =  await axios.post("http://localhost:8080/signup",user)
@@ -25,10 +25,9 @@ export const useUserListMutate = (user)=>{
             localStorage.setItem("type",data.userType)
             // console.log(data);
             toast.success( String(data?.message))
-
+            navigate("/logine")
         },
         onError:(data)=>{
-
             // console.log(data.response.data.error);
             toast.warn( String(data?.response?.data?.error))
 
@@ -55,7 +54,8 @@ const  navigate =useNavigate()
             console.log(data.token);
             localStorage.setItem("type",data.userType)
             dispatch(userGet(data.userType))
-         
+            console.log(data.userId);
+
             toast.success(data?.message)
             navigate("/")
         },

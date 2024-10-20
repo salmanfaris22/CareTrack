@@ -2,11 +2,11 @@
 import  { useState } from 'react';
 import { useUserListMutate } from '../../hooks/authController';
 import Img from '../../assets/hos.webp'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa6";
 const Signup = () => {
 
-const navigate = useNavigate()
+
    
 
   const [formData, setFormData] = useState({
@@ -27,8 +27,8 @@ const navigate = useNavigate()
     e.preventDefault();
     console.log(formData); 
     mutate()
-   setFormData("")
-   navigate("/logine")
+     setFormData("")
+  
   };
 
   return (
