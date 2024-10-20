@@ -1,22 +1,31 @@
 
-import {  Route, Routes } from 'react-router-dom'
+
+import { useState } from 'react'
 import './App.css'
-import Home from './components/home/Home'
-import Navbar from './components/navbar/Navbar'
-import Signup from './components/auth/Signup'
+import Adminrout from './routes/Adminrout'
+
+
+import UserRout from './routes/UserRout'
 
 function App() {
+const [admin,setadmin]=useState(false)
 
+useState(()=>{
+  const type = localStorage.getItem("type")
+  if(type =="admin"){
+    setadmin(true)
+  }
+},[])
 
   return (
     <>
-    <Navbar/>
-     <Routes>
-
-     <Route path='/' element={<Home/>}/>
-    <Route path='/signup' element={<Signup/>}/>
-     </Routes>
-     
+   
+    {admin ? 
+    <Adminrout setadmin={setadmin}/> 
+  : 
+    <UserRout setadmin={setadmin}/>
+  }
+    
     </>
   )
 }
