@@ -1,13 +1,58 @@
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser, FaSignOutAlt, FaCog } from "react-icons/fa"; 
+import axios from "axios";
+// eslint-disable-next-line react/prop-types
+const Navbar = ({ setadmin }) => {
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [openAdmin, setOpenAdmin] = useState(false);
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-// import Logo from '../../assets/logo.webp';
+  useEffect(() => {
+    const type = localStorage.getItem("type");
+    if (type =="user" ||type =="admin" ) {
+      setIsLoggedIn(true);
+      if (type === "admin") {
+        setOpenAdmin(true);
+      }
+    } else {
+      setIsLoggedIn(false);
+      setOpenAdmin(false);
+    }
+  }, [openDropdown]);
 
-import { Link } from "react-router-dom";
+  const toggleDropdown = () => {
+    setOpenDropdown((prev) => !prev);
+  };
 
-// eslint-disable-next-line no-unused-vars, react/prop-types
-const Navbar = () => {
- 
+  const handleLogout = async() => {
+   try {
+      await axios.post('http://localhost:8080/logout', {}, { withCredentials: true });
+       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+       localStorage.clear(); 
+       setIsLoggedIn(false);
+       navigate("/"); 
+       setOpenDropdown(false)
+  } catch (error) {
+      console.error('Error logging out:', error);
+  } }
+
+  const handleAdmin = () => {
+    navigate("/")
+    window.location.reload(); 
+    setadmin(true);
+
+   
+
+   
+  
+   
+  
+  };
+
   return (
-    <nav className=" flex justify-between w-[90%] m-auto h-[80px] bg-white  fixed text-gray-800">
+    <nav className="flex justify-between w-[90%] m-auto h-[80px] bg-white fixed text-gray-800">
       <div className="w-[100px] flex justify-center items-center">
         {/* <img src={Logo} alt="Logo" /> */}
       </div>
@@ -17,19 +62,63 @@ const Navbar = () => {
         <Link to="/about" className="hover:text-blue-600">About</Link>
         <Link to="/contact" className="hover:text-blue-600">Contact</Link>
       </div>
-      <div className="flex justify-center gap-4 items-center mr-5">
-        <Link to="/signup">
-          <button className="bg-blue-500 text-white font-bold p-2 w-[100px] rounded-lg hover:bg-blue-600 transition">Sign Up</button>
-        </Link>
-        <Link to="/logine">
-          <button className="font-bold p-2 w-[100px] text-blue-500 border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition">Login</button>
-        </Link>
-        {/* <Link to="/admin" >
-          {openAdmin && <button className="bg-blue-800 text-white font-bold p-2 w-[70px] rounded-lg hover:bg-blue-700 transition">ADMIN</button>}
-        </Link> */}
+      <div className="relative flex justify-center gap-4 items-center mr-5">
+        <div className="relative">
+          <button
+            onClick={toggleDropdown}
+            className="bg-blue-800 text-white font-bold p-2 w-[70px] rounded-lg hover:bg-blue-700 transition"
+          >
+            Profile
+          </button>
+          {openDropdown && (
+            <div className="absolute right-0 mt-2 w-[200px] bg-white rounded-lg shadow-lg">
+              {!isLoggedIn ? (
+                <div>
+                  <Link  onClick={()=>setOpenDropdown(false)} to="/signup">
+                    <div className="flex items-center p-2 hover:bg-gray-200 transition">
+                      <FaUser className="mr-2" />
+                      <span>Sign Up</span>
+                    </div>
+                  </Link>
+                  <Link onClick={()=>setOpenDropdown(false)} to="/logine">
+                    <div className="flex items-center p-2 hover:bg-gray-200 transition">
+                      <FaUser className="mr-2" />
+                      <span>Login</span>
+                    </div>
+                  </Link>
+                </div>
+              ) : (
+                <div>
+                  <Link onClick={()=>setOpenDropdown(false)} to="/settings">
+                    <div className="flex items-center p-2 hover:bg-gray-200 transition">
+                      <FaCog className="mr-2" />
+                      <span>Settings</span>
+                    </div>
+                  </Link>
+                  {openAdmin && (
+                    <div 
+                      onClick={handleAdmin}
+                      className="flex items-center p-2 hover:bg-gray-200 transition cursor-pointer">
+                      <FaUser onClick={()=>setOpenDropdown(false)} className="mr-2" />
+                      <span>Admin</span>
+                    </div>
+                  )}
+                  <div
+
+                    className="flex items-center p-2 hover:bg-gray-200 transition cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    <FaSignOutAlt onClick={()=>setOpenDropdown(false)}  className="mr-2" />
+                    <span>Logout</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;

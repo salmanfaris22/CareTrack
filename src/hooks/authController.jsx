@@ -1,12 +1,18 @@
 
 import axios from "axios";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 
+
+
+
+
+
+
 export const useUserListMutate = (user)=>{
-    const  navigate =useNavigate()
+
     return useMutation({
         mutationFn:async()=>{
           const res =  await axios.post("http://localhost:8080/signup",user)
@@ -17,7 +23,7 @@ export const useUserListMutate = (user)=>{
             localStorage.setItem("type",data.userType)
             // console.log(data);
             toast.success( String(data?.message))
-            navigate("/")
+
         },
         onError:(data)=>{
 
@@ -30,8 +36,10 @@ export const useUserListMutate = (user)=>{
 
 
 
+
 export const useLoginController = (user)=>{
 
+    
 
 const  navigate =useNavigate()
     return useMutation({
@@ -57,3 +65,18 @@ const  navigate =useNavigate()
     })
     
 } 
+
+export const useLogiut=()=>{
+    
+    return useQuery({ 
+        queryKey: ["user"],
+         queryFn: async()=>{
+            // const token = Cookies.get('token'); 
+            const res = await axios.get("http://localhost:8080/admin/logout", {
+                withCredentials: true,
+              });
+            return res.data
+         },
+       
+     })
+}

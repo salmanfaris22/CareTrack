@@ -28,7 +28,7 @@ const navigate = useNavigate()
     console.log(formData); 
     mutate()
    setFormData("")
-   navigate("/")
+   navigate("/logine")
   };
 
   return (

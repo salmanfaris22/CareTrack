@@ -17,7 +17,7 @@ useEffect(()=>{
   const type = localStorage.getItem("type")
   if(type =="admin"){
     setadmin(true)
-
+    console.log("ldnfak");
   }
 },[])
 
@@ -25,9 +25,9 @@ useEffect(()=>{
     <>
    
     {admin ? 
-      <Adminrout /> 
+      <Adminrout  setadmin={setadmin}/> 
       : 
-    <UserRout />
+     <UserRout setadmin={setadmin} />
   }
     
     </>
