@@ -1,26 +1,18 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaSignOutAlt, FaCog } from "react-icons/fa"; 
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { openAdmin, userGet } from "../../features/user/adminCheck";
 // eslint-disable-next-line react/prop-types
-const Navbar = ({ setadmin }) => {
+const Navbar = () => {
+  const {type} = useSelector(state => state.user);
+  const dispatch = useDispatch()
   const [openDropdown, setOpenDropdown] = useState(false);
-  const [openAdmin, setOpenAdmin] = useState(false);
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const type = localStorage.getItem("type");
-    if (type =="user" ||type =="admin" ) {
-      setIsLoggedIn(true);
-      if (type === "admin") {
-        setOpenAdmin(true);
-      }
-    } else {
-      setIsLoggedIn(false);
-      setOpenAdmin(false);
-    }
-  }, [openDropdown]);
+
+
 
   const toggleDropdown = () => {
     setOpenDropdown((prev) => !prev);
@@ -31,7 +23,7 @@ const Navbar = ({ setadmin }) => {
       await axios.post('http://localhost:8080/logout', {}, { withCredentials: true });
        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
        localStorage.clear(); 
-       setIsLoggedIn(false);
+       dispatch(userGet(null))
        navigate("/"); 
        setOpenDropdown(false)
   } catch (error) {
@@ -40,15 +32,7 @@ const Navbar = ({ setadmin }) => {
 
   const handleAdmin = () => {
     navigate("/")
-    window.location.reload(); 
-    setadmin(true);
-
-   
-
-   
-  
-   
-  
+    dispatch(openAdmin())
   };
 
   return (
@@ -72,7 +56,7 @@ const Navbar = ({ setadmin }) => {
           </button>
           {openDropdown && (
             <div className="absolute right-0 mt-2 w-[200px] bg-white rounded-lg shadow-lg">
-              {!isLoggedIn ? (
+              {!type ? (
                 <div>
                   <Link  onClick={()=>setOpenDropdown(false)} to="/signup">
                     <div className="flex items-center p-2 hover:bg-gray-200 transition">
@@ -95,7 +79,7 @@ const Navbar = ({ setadmin }) => {
                       <span>Settings</span>
                     </div>
                   </Link>
-                  {openAdmin && (
+                  {type=="admin" && (
                     <div 
                       onClick={handleAdmin}
                       className="flex items-center p-2 hover:bg-gray-200 transition cursor-pointer">

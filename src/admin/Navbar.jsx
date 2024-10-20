@@ -7,26 +7,19 @@ import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import { BiSolidDashboard } from "react-icons/bi";
 import { RiUserAddFill } from "react-icons/ri";
-import axios from "axios";
+
+import { useDispatch } from "react-redux";
+import { openAdmin } from "../features/user/adminCheck";
 
 // eslint-disable-next-line react/prop-types
-const NavBarAdmin = ({ setadmin }) => {
+const NavBarAdmin = () => {
+    const dispatch = useDispatch()
+  const navigae=  useNavigate()
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate(); 
+
   const handleLogout = async () => {
-    try {
-      await axios.post('http://localhost:8080/logout', {}, { withCredentials: true });
-      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      localStorage.clear(); 
-      setadmin(false);
-     
-    
-      navigate("/");
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }finally{
-        window.location.reload(); 
-    }
+    navigae("/")
+        dispatch(openAdmin())
   };
 
   return (

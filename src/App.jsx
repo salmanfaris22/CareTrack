@@ -1,33 +1,20 @@
-
-
-
-import { useEffect, useState } from 'react'
 import './App.css'
 import Adminrout from './routes/Adminrout'
-
-
-
-
 import UserRout from './routes/UserRout'
+import { useSelector } from 'react-redux';
 
 function App() {
-const [admin,setadmin]=useState(false)
 
-useEffect(()=>{
-  const type = localStorage.getItem("type")
-  if(type =="admin"){
-    setadmin(true)
-    console.log("ldnfak");
-  }
-},[])
+  const {openadmin} = useSelector(state => state.user);
+
 
   return (
     <>
    
-    {admin ? 
-      <Adminrout  setadmin={setadmin}/> 
+    {openadmin ? 
+      <Adminrout  /> 
       : 
-     <UserRout setadmin={setadmin} />
+     <UserRout />
   }
     
     </>

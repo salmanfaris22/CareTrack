@@ -1,8 +1,10 @@
 
 import axios from "axios";
 import { useMutation, useQuery } from "react-query";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { userGet } from "../features/user/adminCheck";
 
 
 
@@ -38,7 +40,7 @@ export const useUserListMutate = (user)=>{
 
 
 export const useLoginController = (user)=>{
-
+    const dispatch = useDispatch();
     
 
 const  navigate =useNavigate()
@@ -52,10 +54,8 @@ const  navigate =useNavigate()
         onSuccess:(data)=>{
             console.log(data.token);
             localStorage.setItem("type",data.userType)
-            if(data.userType=="admin"){
-                console.log("adimns logesd");
-                //   admin = true
-            }
+            dispatch(userGet(data.userType))
+         
             toast.success(data?.message)
             navigate("/")
         },

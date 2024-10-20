@@ -6,9 +6,12 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { store } from './App/store.jsx'
+import { Provider } from 'react-redux'
 const queryClient = new QueryClient()
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+     <Provider store={store}>
     <ToastContainer />
     <QueryClientProvider client={queryClient}>
     
@@ -16,6 +19,6 @@ createRoot(document.getElementById('root')).render(
     <App />
     </BrowserRouter>
     </QueryClientProvider>
-   
+    </Provider>
   </StrictMode>,
 )

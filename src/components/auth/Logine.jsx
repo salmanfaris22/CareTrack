@@ -6,6 +6,7 @@ import Img from '../../assets/hos.webp'
 import { useLoginController } from '../../hooks/authController';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa6';
+
 // eslint-disable-next-line react/prop-types
 const Logine = () => {
 
@@ -29,15 +30,13 @@ const {mutate} = useLoginController(formData)
     console.log(formData); 
     try{
         
-         mutate()
-
-
-        
-        
+       mutate()
+        // const type =  localStorage.getItem("type")
+        // dispatch(type)
+   
      }catch(Err){
         console.log(Err);
-        console.log("daf");
-          
+        console.log("daf");     
     }
    
 
