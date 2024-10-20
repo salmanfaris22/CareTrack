@@ -1,17 +1,11 @@
-import { useEffect } from "react";
+
 // import Logo from '../../assets/logo.webp';
+
 import { Link } from "react-router-dom";
 
 // eslint-disable-next-line no-unused-vars, react/prop-types
-const Navbar = ({setadmin,setAdminOpen,adminOpen}) => {
-
-  useEffect(() => {
-    const user = localStorage.getItem("type");
-    if (user == "admin") {
-      setAdminOpen(true);
-    }
-  }, []);
-
+const Navbar = () => {
+ 
   return (
     <nav className=" flex justify-between w-[90%] m-auto h-[80px] bg-white  fixed text-gray-800">
       <div className="w-[100px] flex justify-center items-center">
@@ -30,9 +24,9 @@ const Navbar = ({setadmin,setAdminOpen,adminOpen}) => {
         <Link to="/logine">
           <button className="font-bold p-2 w-[100px] text-blue-500 border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition">Login</button>
         </Link>
-        <Link to="/admin" onClick={()=>setadmin(true)}>
-          {adminOpen && <button className="bg-blue-800 text-white font-bold p-2 w-[70px] rounded-lg hover:bg-blue-700 transition">ADMIN</button>}
-        </Link>
+        {/* <Link to="/admin" >
+          {openAdmin && <button className="bg-blue-800 text-white font-bold p-2 w-[70px] rounded-lg hover:bg-blue-700 transition">ADMIN</button>}
+        </Link> */}
       </div>
     </nav>
   );

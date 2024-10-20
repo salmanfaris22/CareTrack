@@ -44,6 +44,10 @@ const  navigate =useNavigate()
         onSuccess:(data)=>{
             console.log(data.token);
             localStorage.setItem("type",data.userType)
+            if(data.userType=="admin"){
+                console.log("adimns logesd");
+                //   admin = true
+            }
             toast.success(data?.message)
             navigate("/")
         },

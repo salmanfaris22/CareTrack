@@ -22,7 +22,30 @@ export const useUserList=()=>{
 }
 
 
+export const useAddUser = (user)=>{
 
+
+    const  navigate =useNavigate()
+        return useMutation({
+            mutationFn:async()=>{
+              const res = await  axios.post(`http://localhost:8080/admin/addUser`,user,{
+                withCredentials: true,
+              })
+               return res.data;
+            },
+            onSuccess:(data)=>{
+                console.log(data);
+
+                toast.success(data?.message)
+                navigate("/")
+            },
+            onError:(data)=>{
+                    toast.warn("this mail alredy Used");
+                    console.log(data);
+            }
+        })
+        
+    } 
 export const useUserUpdateController = (id,user)=>{
 
 

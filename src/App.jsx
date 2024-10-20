@@ -1,8 +1,11 @@
 
 
-import { useState } from 'react'
+
+import { useEffect, useState } from 'react'
 import './App.css'
 import Adminrout from './routes/Adminrout'
+
+
 
 
 import UserRout from './routes/UserRout'
@@ -10,10 +13,11 @@ import UserRout from './routes/UserRout'
 function App() {
 const [admin,setadmin]=useState(false)
 
-useState(()=>{
+useEffect(()=>{
   const type = localStorage.getItem("type")
   if(type =="admin"){
     setadmin(true)
+
   }
 },[])
 
@@ -21,9 +25,9 @@ useState(()=>{
     <>
    
     {admin ? 
-    <Adminrout setadmin={setadmin}/> 
-  : 
-    <UserRout setadmin={setadmin}/>
+      <Adminrout /> 
+      : 
+    <UserRout />
   }
     
     </>
