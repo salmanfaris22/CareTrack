@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { openAdmin, userGet } from "../../features/user/adminCheck";
 
+
 const Navbar = () => {
   const { type } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -41,11 +42,14 @@ const Navbar = () => {
   return (
     <>
       <nav className="flex bg-gray-900 justify-between w-[100%] m-auto h-[80px] from-purple-950 fixed text-white">
+    
         <div className="w-[100px] flex justify-center items-center">
           {/* <img src={Logo} alt="Logo" /> */}
+          
           <button onClick={toggleSidebar} className="md:hidden">
             <FaBars className="text-2xl" />
           </button>
+          {/* <LiveClock/> */}
         </div>
         <div className="hidden md:flex gap-2 cursor-pointer font-bold w-[60%] justify-around items-center">
           <Link to="/" className="hover:text-green-500">Home</Link>

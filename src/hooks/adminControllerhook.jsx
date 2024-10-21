@@ -5,13 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 
+export const AuthFuntion=()=>{
+    const  navigat =useNavigate()
+    if(localStorage.getItem("type")!="admin"){
+        window.location.reload()
+            navigat("/")
+
+    }else{
+        return
+    }
+}
+
 
 export const useUserList=()=>{
-    
+    AuthFuntion()
     return useQuery({ 
         queryKey: ["user"],
          queryFn: async()=>{
-            // const token = Cookies.get('token'); 
+ 
             const res = await axios.get("http://localhost:8080/admin/users", {
                 withCredentials: true,
               });
@@ -22,8 +33,9 @@ export const useUserList=()=>{
 }
 
 
-export const useAddUser = (user)=>{
 
+export const useAddUser = (user)=>{
+    AuthFuntion()
 
     const  navigate =useNavigate()
         return useMutation({
@@ -34,7 +46,7 @@ export const useAddUser = (user)=>{
                return res.data;
             },
             onSuccess:(data)=>{
-                console.log(data);
+
 
                 toast.success(data?.message)
                 navigate("/")
@@ -48,7 +60,7 @@ export const useAddUser = (user)=>{
     } 
 export const useUserUpdateController = (id,user)=>{
 
-
+    AuthFuntion()
     const  navigate =useNavigate()
         return useMutation({
             mutationFn:async()=>{
@@ -73,7 +85,7 @@ export const useUserUpdateController = (id,user)=>{
 
     export const useUserDeletController = (id)=>{
         const queryClient = useQueryClient();
-
+        AuthFuntion()
         const  navigate =useNavigate()
             return useMutation({
                 mutationFn:async()=>{
@@ -96,4 +108,4 @@ export const useUserUpdateController = (id,user)=>{
                 }
             })
             
-        } 
+     } 

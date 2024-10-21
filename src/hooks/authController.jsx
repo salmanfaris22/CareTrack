@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -83,9 +83,10 @@ const  navigate =useNavigate()
 } 
 
 export const useLogiut=()=>{
-    
+    const queryClient = useQueryClient();
     return useQuery({ 
         queryKey: ["user"],
+
          queryFn: async()=>{
             // const token = Cookies.get('token'); 
             const res = await axios.get("http://localhost:8080/admin/logout", {
@@ -93,6 +94,22 @@ export const useLogiut=()=>{
               });
             return res.data
          },
+         onSuccess: (data) => {
+
+            queryClient.invalidateQueries({
+              queryKey:["appoiment"]
+            })
+            toast.success(String(data?.message));
+          },
        
      })
+}
+
+
+
+export function authChack(){
+    if( !localStorage.getItem("type")){
+        toast.warn("pleas logine")
+        return
+    }
 }

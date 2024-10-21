@@ -9,29 +9,16 @@ export const useApoimentSet = (user) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () => {
-      const res = await axios.post(
-        "http://localhost:8080/user/appoiment",
-        user,
-
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post("http://localhost:8080/user/appoiment",user,{withCredentials: true,});
       return res.data;
     },
     onSuccess: (data) => {
-      localStorage.setItem("type", data);
-      // console.log(data);
       queryClient.invalidateQueries({
-        queryKey:["data"]
+        queryKey:["appoiment"]
     })
-
       toast.success(String(data?.message));
-    //   navigate("/")
     },
     onError: (data) => {
-      console.log(data);
-     
       toast.warn(String(data?.response?.data?.message));
     },
   });
@@ -41,7 +28,7 @@ export const useApoimentSet = (user) => {
 export const useDateList=()=>{
     
     return useQuery({ 
-        queryKey: ["data"],
+        queryKey: ["appoiment"],
          queryFn: async()=>{
             // const token = Cookies.get('token'); 
             const res = await axios.get(" http://localhost:8080/dates");
@@ -55,7 +42,7 @@ export const useDateList=()=>{
 export const useGetMyApoiments=()=>{
     
     return useQuery({ 
-        queryKey: ["data"],
+        queryKey: ["appoiment"],
          queryFn: async()=>{
             // const token = Cookies.get('token'); 
             const res = await axios.get("http://localhost:8080/user/getuserAppoiment",  {
@@ -66,3 +53,29 @@ export const useGetMyApoiments=()=>{
        
      })
 }
+
+
+
+
+export const useDeletApoiment = () => {
+
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: async (user) => {
+        const res = await axios.post("http://localhost:8080/user/cancelAppiment",user,{withCredentials: true,} );
+        return res.data;
+      },
+      onSuccess: (data) => {
+
+        queryClient.invalidateQueries({
+          queryKey:["appoiment"]
+        })
+        toast.success(String(data?.message));
+      },
+      onError: (data) => {
+        console.log(data);
+       
+        toast.warn(String(data?.response?.data?.message));
+      },
+    });
+  };

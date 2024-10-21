@@ -4,6 +4,11 @@ import ContactUs from "../page/Contact";
 import Goal from "../page/Goal";
 import Services from "../page/Services";
 
+
+
+
+// Completions()
+
 const Home = () => {
   return (
     <div>
@@ -30,6 +35,8 @@ const Home = () => {
       <Goal />
       <Services/>
       <ContactUs/>
+
+
     </div>
   );
 };

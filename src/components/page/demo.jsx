@@ -17,14 +17,8 @@ const [selected,setSlect]=useState()
   //  console.log("bh",doctor_id,newzDar)
 
 function hnadleCLike(day){
-
-    if(day.id==selected){
-        setSlect(null)
-        dispatch(timessssGeting(null));
-    }else{
         setSlect(day.id)
         dispatch(timessssGeting({day}));
-    }
 }
 
 
@@ -45,24 +39,24 @@ function hnadleCLike(day){
               <h3 className="text-lg font-semibold">Book now</h3>
               <p className="text-3xl font-bold">
                 {" "}
-                {new Date(day.date_time).toISOString().split("T")[0]}
+                {new Date(day?.date_time).toISOString().split("T")[0]}
               </p>
             </div>
 
             <div className="mt-4">
               {day.slot == "Morning" ? (
-                <div>10am to 12am</div>
+                <div>10.00 to 12.00</div>
               ) : (
-                <div>3pm to 5pm</div>
+                <div>14.00 to 16.00</div>
               )}
 
-              {day.available ? (
+              {day?.available ? (
                
 
 
 
                <button
-                  className={`w-full p-2 rounded-md transition duration-300 mt-2    ${selected==day.id ? "bg-red-500 hover:bg-red-600":"bg-green-500 hover:bg-green-600"}`}
+                  className={`w-full p-2 rounded-md transition duration-300 mt-2    ${selected==day?.id ? "bg-red-500 hover:bg-red-600":"bg-green-500 hover:bg-green-600"}`}
                   onClick={() => hnadleCLike(day)}
                 >
                   {day.slot}

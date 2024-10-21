@@ -22,3 +22,17 @@ function App() {
 }
 
 export default App
+
+
+import { Navigate, Outlet } from "react-router-dom";
+
+const ProtectedRoute = ({ isAdmin }) => {
+  // Check if user is not admin, redirect them
+  if (!isAdmin) {
+    return <Navigate to="/" />;
+  }
+
+  return <Outlet />;
+};
+
+export default ProtectedRoute;

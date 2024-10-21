@@ -2,27 +2,25 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useUserList, useUserUpdateController } from "../hooks/adminControllerhook";
 
-
 const UpdateUser = () => {
-    const { id } = useParams();
-    
+  const { id } = useParams();
+
   const [user, setUser] = useState({
-    FirstName: '',
-    LastName: '',
-    Email: '',
-    Phone: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
   });
 
-  const {mutate} = useUserUpdateController(id,user)
+  const { mutate } = useUserUpdateController(id, user);
   const { data } = useUserList();
 
   useEffect(() => {
     const newData = data?.message?.filter((e) => e.ID == id);
     if (newData && newData.length > 0) {
-      setUser(newData[0]); 
+      setUser(newData[0]);
     }
   }, [data, id]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,80 +32,73 @@ const UpdateUser = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    // console.log('Updated user data:', user);
-    try{
-       
-        mutate()
-    }catch(err){
-        console.log(err);
+    try {
+      mutate();
+    } catch (err) {
+      console.log(err);
     }
   };
 
   return (
-   
-     
-      <div className=" w-full p-10 flex justify-center items-center flex-col bg-gray-200 min-h-screen">
-       
-        <form onSubmit={handleSubmit} className="space-y-4 bg-white p-10 rounded-lg shadow-sm w-[50%]">
-        <h1 className="text-2xl font-bold mb-4">Update User</h1>
-          <div>
-            <label className="block mb-1">First Name</label>
-            <input
-              type="text"
-              name="FirstName"
-              value={user.FirstName}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-lg"
-              required
-            />
-          </div>
+    <div className="w-full p-10 flex justify-center items-center flex-col bg-gray-900 min-h-screen">
+      <form onSubmit={handleSubmit} className="space-y-4 bg-gray-800 p-10 rounded-lg shadow-sm w-[90%] md:w-[50%]">
+        <h1 className="text-2xl font-bold mb-4 text-white">Update User</h1>
+        <div>
+          <label className="block mb-1 text-gray-300">First Name</label>
+          <input
+            type="text"
+            name="first_name"
+            value={user.first_name}
+            onChange={handleChange}
+            className="border border-gray-600 bg-gray-700 p-2 w-full rounded-lg text-white"
+            required
+          />
+        </div>
 
-          <div>
-            <label className="block mb-1">Last Name</label>
-            <input
-              type="text"
-              name="LastName"
-              value={user.LastName}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-lg"
-              required
-            />
-          </div>
+        <div>
+          <label className="block mb-1 text-gray-300">Last Name</label>
+          <input
+            type="text"
+            name="last_name"
+            value={user.last_name}
+            onChange={handleChange}
+            className="border border-gray-600 bg-gray-700 p-2 w-full rounded-lg text-white"
+            required
+          />
+        </div>
 
-          <div>
-            <label className="block mb-1">Email</label>
-            <input
-              type="email"
-              name="Email"
-              value={user.Email}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-lg"
-              required
-            />
-          </div>
+        <div>
+          <label className="block mb-1 text-gray-300">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+            className="border border-gray-600 bg-gray-700 p-2 w-full rounded-lg text-white"
+            required
+          />
+        </div>
 
-          <div>
-            <label className="block mb-1">Phone</label>
-            <input
-              type="text"
-              name="Phone"
-              value={user.Phone}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-lg"
-              required
-            />
-          </div>
+        <div>
+          <label className="block mb-1 text-gray-300">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            value={user.phone}
+            onChange={handleChange}
+            className="border border-gray-600 bg-gray-700 p-2 w-full rounded-lg text-white"
+            required
+          />
+        </div>
 
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 w-full rounded-lg shadow-lg hover:bg-blue-600"
-          >
-            Update User
-          </button>
-        </form>
-      </div>
-
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 w-full rounded-lg shadow-lg hover:bg-blue-600"
+        >
+          Update User
+        </button>
+      </form>
+    </div>
   );
 };
 

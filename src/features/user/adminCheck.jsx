@@ -5,6 +5,7 @@ import { format, addDays } from 'date-fns';
 
 
 
+
 const today = new Date();
 const initialState = {
   type: localStorage.getItem("type"),
@@ -16,7 +17,14 @@ const initialState = {
   datesSet:Array.from({ length: 7 }, (_, index) => 
     format(addDays(today, index), 'yyyy-MM-dd')  // Format the date to 'yyyy-MM-dd'
   ),
+//   localTime:{
+//     time:null,
+//     date:null
+//   }
+  
 }
+
+
 
 export const userType = createSlice({
   name: 'type',
@@ -27,14 +35,14 @@ export const userType = createSlice({
 
     },
     openAdmin:(state)=>{
-
+        
         if(state.type=="admin"){
             state.openadmin = !state.openadmin
         }
       
     },
     timessssGeting:(state,action)=>{
-            console.log(action);
+       
         if(action.payload==null){
             state.time=null
             state.slot=null
@@ -44,16 +52,14 @@ export const userType = createSlice({
         }
     },
     apoimentDemo:(state,action)=>{
-
-        
-     
+    
        if (state.time!=null && state.slot != null){
         state.apoiment={
             ... action.payload,
-            date:state.time,
+        date:state.time,
            age:Number(action.payload.age),
            doctor_id:Number(action.payload.doctor_id),
-            slot:(state.slot)
+           slot:(state.slot)
          }
        }else{
         toast.warn("select the slot")
@@ -63,11 +69,16 @@ export const userType = createSlice({
      
         state.doctor_id=action.payload
         console.log(state.doctor_id);
-    }
+    },
+    // setTimeOpen:(state,actions)=>{
+    //         state.localTime.time=actions.payload
+
+    //         console.log(actions.payload);
+    // }
   },
 })
 
 
-export const { userGet ,openAdmin,timessssGeting,apoimentDemo,docterSelect} = userType.actions
+export const { userGet ,openAdmin,timessssGeting,apoimentDemo,docterSelect,setTimeOpen} = userType.actions
 
 export default userType.reducer
