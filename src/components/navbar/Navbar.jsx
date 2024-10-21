@@ -47,10 +47,10 @@ const Navbar = () => {
             <FaBars className="text-2xl" />
           </button>
         </div>
-        <div className="hidden md:flex gap-2 cursor-pointer font-bold w-[30%] justify-around items-center">
+        <div className="hidden md:flex gap-2 cursor-pointer font-bold w-[60%] justify-around items-center">
           <Link to="/" className="hover:text-green-500">Home</Link>
           <Link to="/appointment" className="hover:text-green-500">Appointment</Link>
-          <Link to="/about" className="hover:text-green-500">About</Link>
+          <Link to="/myAppoiments" className="hover:text-green-500">My Appoiments</Link>
           <Link to="/contact" className="hover:text-green-500">Contact</Link>
         </div>
         <div className="relative flex justify-center gap-4 items-center mr-5">

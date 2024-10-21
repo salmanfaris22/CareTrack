@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Doctor from "../../assets/docter.png";
 import ContactUs from "../page/Contact";
 import Goal from "../page/Goal";
@@ -17,9 +18,12 @@ const Home = () => {
             <div className="font-thin text-lg md:text-xl lg:text-2xl text-gray-300">
               Conveys speed and efficiency in scheduling healthcare services
             </div>
+            <Link to={"/appointment"}>
             <button className="p-4 bg-green-500 rounded-lg text-white hover:bg-green-600 transition duration-300">
               Make an Appointment
             </button>
+            </Link>
+           
           </div>
         </div>
       </div>

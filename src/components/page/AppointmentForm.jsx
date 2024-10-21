@@ -1,34 +1,73 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import AppointmentCalendar from './demo';
+import { useDispatch, useSelector } from 'react-redux';
+import {  apoimentDemo, docterSelect, timessssGeting } from '../../features/user/adminCheck';
+import { useApoimentSet } from '../../hooks/pationsHoosk';
+
+
+const doctors = [
+  { id: 1, name: 'Dr. John Smith (Cardiology)' },
+  { id: 2, name: 'Dr. Jane Doe (Neurology)' },
+  { id: 3, name: 'Dr. Emily Johnson (Orthopedics)' },
+  { id: 4, name: 'Dr. Sarah Davis (Dermatology)' },
+
+];
 
 const AppointmentForm = () => {
+    const { apoiment,time,slot } = useSelector(state => state.user);
+
+    const {mutate} =  useApoimentSet(apoiment)
+
+
+  const dispatch = useDispatch();
   const [appointment, setAppointment] = useState({
-    patientName: '',
+    patient_name: '',
     age: '',
     place: '',
-    slot: 'morning', // default value
-    doctorId: 1, // you can modify this based on your doctor's ID
-    date: '', // Added date field
+    slot: '', 
+    doctor_id: '1', 
+    date: "",
   });
 
   const handleChange = (e) => {
     setAppointment({ ...appointment, [e.target.name]: e.target.value });
+
+
+    if(e.target.name=="doctor_id"){
+  dispatch(docterSelect(e.target.value))
+    }
+
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Appointment Details:', appointment);
-    // Here you can make an API call to submit the appointment
-  };
 
-  // Calculate the default date for last week
-  const getLastWeekDate = () => {
-    const lastWeekDate = new Date();
-    lastWeekDate.setDate(lastWeekDate.getDate() - 7);
-    return lastWeekDate.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+    const promis =new Promise((res)=>{
+        const isSuccess = true;
+        setTimeout(() => {
+            if (isSuccess) {
+                res(dispatch(apoimentDemo(appointment))) 
+            } 
+          },0);
+    })
+    
+    promis
+    .then(() => {
+        if(time!=null && slot !=null){
+            mutate()
+            dispatch(timessssGeting(null));
+        }
+        
+      }).theb(()=>{
+        dispatch(timessssGeting(null));
+      })
+      .catch((error) => {
+        console.error("Promise rejected:", error);
+      });
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-900">
+    <div className="min-h-screen flex justify-center items-center bg-gray-900 p-5">
       <form
         onSubmit={handleSubmit}
         className="bg-gray-800 text-white p-8 rounded-lg shadow-lg w-full max-w-md"
@@ -39,8 +78,8 @@ const AppointmentForm = () => {
           <label htmlFor="patientName" className="block text-gray-300 mb-2">Patient Name</label>
           <input
             type="text"
-            id="patientName"
-            name="patientName"
+            id="patient_name"
+            name="patient_name"
             value={appointment.patientName}
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -77,46 +116,24 @@ const AppointmentForm = () => {
           />
         </div>
 
+        {/* Doctor Selection Dropdown */}
         <div className="mb-4">
-          <label htmlFor="date" className="block text-gray-300 mb-2">Select Date</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={appointment.date}
-            onChange={handleChange}
-            min={getLastWeekDate()} // Setting min to last week's date
-            className="w-full p-3 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="slot" className="block text-gray-300 mb-2">Select Slot</label>
+          <label htmlFor="doctorId" className="block text-gray-300 mb-2">Select Doctor</label>
           <select
-            id="slot"
-            name="slot"
-            value={appointment.slot}
+            id="doctor_id"
+            name="doctor_id"
+            value={appointment.doctor_id}
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
-          >
-            <option value="morning">Morning (10 AM - 12 PM)</option>
-            <option value="evening">Evening (3 PM - 5 PM)</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="doctorId" className="block text-gray-300 mb-2">Doctor ID</label>
-          <input
-            type="number"
-            id="doctorId"
-            name="doctorId"
-            value={appointment.doctorId}
-            onChange={handleChange}
-            className="w-full p-3 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
-            placeholder="Enter Doctor ID"
             required
-          />
+          >
+            
+            {doctors.map((doctor) => (
+              <option key={doctor.id} value={doctor.id}>
+                {doctor.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <button
@@ -126,6 +143,7 @@ const AppointmentForm = () => {
           Book Appointment
         </button>
       </form>
+      <AppointmentCalendar setAppointment={setAppointment} appointment={appointment} />
     </div>
   );
 };

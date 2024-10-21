@@ -15,21 +15,39 @@ import { userGet } from "../features/user/adminCheck";
 
 export const useUserListMutate = (user)=>{
     const  navigate =useNavigate()
+    const dispatch = useDispatch();
+    
+
+
     return useMutation({
         mutationFn:async()=>{
-          const res =  await axios.post("http://localhost:8080/signup",user)
+          const res =  await axios.post("http://localhost:8080/signup",user,{
+            withCredentials: true,
+          })
             return res.data;
         },
         onSuccess:(data)=>{
-           
             localStorage.setItem("type",data.userType)
-            // console.log(data);
+            localStorage.setItem("token",data.token)
+            dispatch(userGet(data.userType))
+
+
+            toast.success(data?.message)
+            localStorage.setItem("type",data.userType)
+            console.log(data);
             toast.success( String(data?.message))
-            navigate("/logine")
+            navigate("/")
         },
         onError:(data)=>{
-            // console.log(data.response.data.error);
-            toast.warn( String(data?.response?.data?.error))
+            
+
+            if(String(data.response.data.error).length>10){
+                const err = data.response.data.error.split(" ")[1].split(".")
+                toast.warn( err[1] + "requred")
+            }else{
+                toast.warn( String(data?.response?.data?.error))
+            }
+           
 
         }
     })
@@ -51,12 +69,9 @@ const  navigate =useNavigate()
            return res.data;
         },
         onSuccess:(data)=>{
-
             localStorage.setItem("type",data.userType)
             localStorage.setItem("token",data.token)
             dispatch(userGet(data.userType))
-
-
             toast.success(data?.message)
             navigate("/")
         },
